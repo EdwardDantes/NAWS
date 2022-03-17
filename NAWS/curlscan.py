@@ -1,15 +1,17 @@
 import logging.config
 import logging
-import pycurl
-import napalm
-from sys import argv
-from sys import exit
+from pycurl import curl
 
 logging.config.fileConfig("logger.conf")
 logger = logging.getLogger(__name__)
 
 
-class GetTarget(Object):
+class CurlSession(Object):
+    """
+        emulate and automate these commands
+        curl -Is https://www.twitter.com -L
+        curl  smtp://mail.steelnetwork.com:25 -v
+        curl  smtp://mail.steelnetwork.com:465 -v
+        curl  smtp://mail.steelnetwork.com:587 -v
+    """
 
-    def getArgs(argv)
-      
