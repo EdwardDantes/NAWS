@@ -30,7 +30,7 @@ class argumentReader():
             print("Processing.")
 
         Arguement_Dict  = {i: NewArgs[i] for i in range(0, len(NewArgs), 1)}
-        Specific_Dict = {"url": "NULL", "": "NULL", "outputname": "NULL"}
+        Specific_Dict = {"url": "NULL", "mode": "NULL", "outputfilename": "NULL"}
         logger.info(f"Command Line Arguements have been recieved. {NewArgs}")  
  
         for values in Arguement_Dict:  
@@ -43,14 +43,25 @@ class argumentReader():
                 print("python3 naws.py -u myUsername -o filename.rules")
                 print("python3 naws.py -f /home/username/Desktop/github/wordlist/commands.txt -o outputresults.txt \n")
                 exit()
-            elif(Arguement_Dict[values] == '-u'):
-                Specific_Dict["username"] = Arguement_Dict[values+1] 
 
-            elif(Arguement_Dict[values] == '-f'):
-                Specific_Dict["filename"] = Arguement_Dict[values+1] 
+            elif(Arguement_Dict[values] == '-u'):
+                Specific_Dict["url"] = Arguement_Dict[values+1] 
+
+            elif(Arguement_Dict[values] == '-m'):
+                Specific_Dict["mode"] = Arguement_Dict[values+1] 
                 
-            elif(Arguement_Dict[values] == '-o'):
-                Specific_Dict["outputname"] = Arguement_Dict[values+1] 
+            elif(Arguement_Dict[values] == '-p'):
+                Specific_Dict["port(s)"] = Arguement_Dict[values+1] 
+
+            elif(Arguement_Dict[values] == '-o')
+                Specific_Dict["outputfilename"] = Arguement_Dict[values+1]
+
+                try:
+                    logger.
+                    with open(f'{Specific_Dict["outputfilename"]}')
+
+                except:
+
 
         logger.info("Returning standard dict from Decisions <- argumentReader ")
         return Specific_Dict
