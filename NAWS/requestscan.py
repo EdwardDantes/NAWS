@@ -1,6 +1,6 @@
 import logging.config
 import logging
-from pycurl import curl
+import requests
 
 logging.config.fileConfig("logger.conf")
 logger = logging.getLogger(__name__)
