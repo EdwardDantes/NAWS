@@ -1,9 +1,9 @@
 from sys import argv
 import logging.config
-import logging
+import logging  #Debug, info, warning, error, critical
 
 
-logging.config.fileConfig("logger.conf")
+logging.config.fileConfig("NAWSlogger.conf")
 logger = logging.getLogger(__name__)
 
 class argumentReader():

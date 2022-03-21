@@ -14,8 +14,17 @@ import logging.config
 import logging
 from pycurl import curl
 
-logging.config.fileConfig("logger.conf")
+"""
+Use Logging within curlscan. In logging library the class Handler has subclasses, SMTPHandler and HTTPHandler.
+"""
+
+logging.basicConfig(filename='~/var/logs/NAWS.log', filemode='w')
 logger = logging.getLogger(__name__)
+
+http_log_handler = logging.HTTPHandler() #debug
+smtp_log_handler = logging.SMTPHandler() #debug
+mem_log_handler = logging.MemoryHandler() #critical
+file_handler
 
 
 class CurlSession(Object):
@@ -30,13 +39,22 @@ class CurlSession(Object):
         curl  smtp://mail.google.com:465 -v
         curl  smtp://mail.google.com:587 -v 
     """
-    session = setopt(URL, f'{url}')
+    try:
+        
+        session = setopt(URL, f'{url}')
+    except Exception as e:
+        logging.error("Exception occurred", exc_info=True)
+
 
 
     #open the url session
     #save and store cookies if required.
 
     def getCurlHeaders()
+    def getCurlCookies()
+    """
+    Returns the headers of url response in a dictionary form. 
+    """
     def 
 
 
