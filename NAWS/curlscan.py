@@ -14,6 +14,8 @@ from pycurl import Curl
 from io import BytesIO
 import certifi
 import json
+import xmltodict
+import csv
 
 """
 Use Logging within curlscan. In logging library the class Handler has subclasses, SMTPHandler and HTTPHandler.
@@ -25,7 +27,7 @@ logger = logging.getLogger(__name__)
 http_log_handler = logging.HTTPHandler() #debug
 smtp_log_handler = logging.SMTPHandler() #debug
 mem_log_handler = logging.MemoryHandler() #critical
-file_handler
+#file_handler
 
 
 class CurlSession(Object):
@@ -37,17 +39,12 @@ class CurlSession(Object):
         self.c = Curl() 
         self.buffer = BytesIO()
         self.success = 'NULL'
-        self.response = 'NULL'
+        self.response_dict = {'first':'NULL'}
 
 
-    def startCurlSession(self, url, data_format):
+    def startCurlSession(self, url):  #make json the default output
         """
-            Starts a curl session and returns the entire server response. 
-            emulate and automate these commands
-            curl -Is https://www.twitter.com -L
-            curl  smtp://mail.google.com:25 -v
-            curl  smtp://mail.google.com:465 -v
-            curl  smtp://mail.google.com:587 -v  
+            Starts a curl session and returns the entire server response.   
         """
         self.url = url
         self.data_format = "txt"
@@ -60,50 +57,65 @@ class CurlSession(Object):
         except Exception as e:
             logging.error("Exception occurred", exc_info=True)
         finally:
-            self.c.close()
+            self.c.close()   #look into whether or not to close after buffer has been converted to output/file.
 
         #Setup buffer for the curl session.
         if self.success == "TRUE":
             try:
                 self.response = self.buffer.getvalue()
                 self.response_dict = json.loads(self.response)
+                return self.response_dict
             except Exception as e:
                 logging.error("Failed to load curl response to json format.", exc_info=True)
+                return 1
         else:
             logging.error("No data to load into json format.")
-
-
-        
+            return 1 
+     
 
     #open the url session
     #save and store cookies if required.
 
-    def getCurlHeaders():
+    def getCurlHeaders(self):
         """
-        Returns a dictionary of Headers used by the target URL.
+        Returns a dictionary of Headers used by the target URL.#
         """
 
-    def getCurlCookies():
+    def getCurlCookies(self):
         """
         Returns the headers of url response in a dictionary form. 
         """
     
-    def findPHPinCurlSession():
+    def getCurlXMLoutput(self, ):
+        """
+        Converts the json parsed python dictionary curl response and returns xml output.
+        """
+        #use logging memhandler here
+        if self.success == "TRUE":
+            try:
+                return xmltodict.unparse(self.response_dict, pretty=True)
+            except Exception as e: 
+                logging.error("Exception occurred writing unparsing xml from curl dictionary ", exc_info=True)
+        else:
+            print("You must call startCurlSession before this function.")
+
+
+    def findPHPinCurlSession(self):
         """
         use regex to find embedded php components of server response or links to php files.
         """
 
-    def findJavaScriptinCurlSession():
+    def findJavaScriptinCurlSession(self):
         """
         use regex to find embedded script tags or links to .js files. 
         """
     
-    def findFormParametersinCurlSession():
+    def findFormParametersinCurlSession(self):
         """
         use regex to find "=" in lines and extract parameter names, places, and values.
         """
     
-    def changeCurlHeaders():
+    def changeCurlHeaders(self):
         """
         Retarget website with new headers.  This function may be more useful under Wfuzz components.
         """
