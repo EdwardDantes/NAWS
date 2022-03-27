@@ -17,9 +17,6 @@ import json
 import xmltodict
 import csv
 
-"""
-Use Logging within curlscan. In logging library the class Handler has subclasses, SMTPHandler and HTTPHandler.
-"""
 
 logging.basicConfig(filename='~/var/logs/NAWS.log', filemode='w')
 logger = logging.getLogger(__name__)
